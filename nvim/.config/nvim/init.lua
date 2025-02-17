@@ -198,6 +198,7 @@ local lsp_identifiers = {
 	'gdscript',
 	'ts_ls',
 	'jsonls',
+	'emmet_language_server',
 }
 
 for _, k in pairs(lsp_identifiers) do
@@ -266,6 +267,14 @@ local my_keymaps = {
 	{
 		{ 'i', 's' },
 		'<C-Right>',
+		function ()
+			ls.jump(1)
+		end,
+		{ silent = true },
+	},
+	{
+		{ 's' },
+		'<Tab>',
 		function ()
 			ls.jump(1)
 		end,
