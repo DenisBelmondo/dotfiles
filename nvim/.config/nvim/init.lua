@@ -1,5 +1,20 @@
 local lua_snip = nil
 
+local function set_up_colors()
+	local status, plugin = pcall(require, 'gruvbox')
+
+	if not status then
+		return
+	end
+
+	plugin.setup {
+		contrast = 'hard',
+		transparent_mode = true,
+	}
+
+	vim.cmd 'colorscheme gruvbox'
+end
+
 local function set_vim_options()
 	local function set_numbers()
 		-- enable numbers in netrw
@@ -31,8 +46,6 @@ local function set_vim_options()
 		-- don't show diagnostics to the right of lines
 		virtual_text = false,
 	}
-
-	vim.cmd([[colorscheme gruvbox]])
 end
 
 local function install_lazy_nvim()
@@ -166,23 +179,22 @@ local function set_up_lazy_plugin_specs()
 end
 
 local function set_up_the_newly_installed_plugins()
-	require('guess-indent').setup {}
-	require('ibl').setup()
-	require('gitsigns').setup()
-	require('mason').setup()
-	require('gruvbox').setup {
-		contrast = 'high',
-		transparent_mode = true,
-	}
-	require('smear_cursor').setup()
 	require('cinnamon').setup {
 		keymaps = {
 			basic = true,
 			extra = true,
 		},
-
 		options = { mode = 'window' },
 	}
+
+	require('gitsigns').setup()
+	require('guess-indent').setup {}
+
+	-- indent-blankline
+	require('ibl').setup()
+
+	require('mason').setup()
+	require('smear_cursor').setup()
 end
 
 local function hook_up_cmp_with_snippets()
@@ -207,7 +219,8 @@ local function hook_up_cmp_with_snippets()
 			},
 			{
 				{ name = 'buffer' },
-			}),
+			}
+		),
 	}
 
 	cmp.setup.cmdline({ '/', '?' }, {
@@ -360,6 +373,7 @@ end
 
 install_lazy_nvim()
 set_up_lazy_plugin_specs()
+set_up_colors()
 set_up_the_newly_installed_plugins()
 hook_up_cmp_with_snippets()
 set_up_lsp_capabilities()
