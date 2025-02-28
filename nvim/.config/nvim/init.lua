@@ -1,3 +1,5 @@
+local lua_snip = nil
+
 local function set_vim_options()
 	local function set_numbers()
 		-- enable numbers in netrw
@@ -184,13 +186,14 @@ local function set_up_the_newly_installed_plugins()
 end
 
 local function hook_up_cmp_with_snippets()
-	local ls = require 'luasnip'
 	local cmp = require 'cmp'
+
+	lua_snip = require 'luasnip'
 
 	cmp.setup {
 		snippet = {
 			expand = function(args)
-				ls.lsp_expand(args.body)
+				lua_snip.lsp_expand(args.body)
 			end,
 		},
 		mapping = cmp.mapping.preset.insert {
@@ -277,7 +280,7 @@ local function set_up_keymaps()
 			nil,
 		},
 		{
-			{ 'i', 'n', 'v' },
+			{ 'v', 'i', 'n' },
 			'<leader>d',
 			function()
 				vim.diagnostic.open_float()
@@ -285,7 +288,7 @@ local function set_up_keymaps()
 			nil,
 		},
 		{
-			{ 'i', 'n', 'v' },
+			{ 'v', 'i', 'n' },
 			'<leader>g',
 			function()
 				vim.lsp.buf.definition()
@@ -293,7 +296,7 @@ local function set_up_keymaps()
 			nil,
 		},
 		{
-			{ 'i', 'n', 'v' },
+			{ 'v', 'i', 'n' },
 			'<leader>h',
 			function()
 				vim.lsp.buf.hover()
@@ -304,7 +307,7 @@ local function set_up_keymaps()
 			{ 'i', 's' },
 			'<C-L>',
 			function()
-				ls.jump(1)
+				lua_snip.jump(1)
 			end,
 			{ silent = true },
 		},
@@ -312,7 +315,7 @@ local function set_up_keymaps()
 			{ 'i', 's' },
 			'<C-Right>',
 			function()
-				ls.jump(1)
+				lua_snip.jump(1)
 			end,
 			{ silent = true },
 		},
@@ -320,7 +323,7 @@ local function set_up_keymaps()
 			{ 's' },
 			'<Tab>',
 			function()
-				ls.jump(1)
+				lua_snip.jump(1)
 			end,
 			{ silent = true },
 		},
@@ -328,7 +331,7 @@ local function set_up_keymaps()
 			{ 'i', 's' },
 			'<C-H>',
 			function()
-				ls.jump(-1)
+				lua_snip.jump(-1)
 			end,
 			{ silent = true },
 		},
@@ -336,7 +339,7 @@ local function set_up_keymaps()
 			{ 'i', 's' },
 			'<C-Left>',
 			function()
-				ls.jump(-1)
+				lua_snip.jump(-1)
 			end,
 			{ silent = true },
 		},
