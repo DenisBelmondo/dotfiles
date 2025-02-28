@@ -60,8 +60,8 @@ local function install_lazy_nvim()
 
 	-- Make sure to setup `mapleader` and `maplocalleader` before
 	-- loading lazy.nvim so that mappings are correct.
-	vim.g.mapleader = ' '
-	vim.g.manplocalleader = '\\'
+	vim.g.mapleader = '\\'
+	vim.g.maplocalleader = ' '
 end
 
 local function set_up_lazy_plugin_specs()
