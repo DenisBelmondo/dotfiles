@@ -224,9 +224,17 @@ local lsp_identifiers = {
 }
 
 for _, k in pairs(lsp_identifiers) do
-	lspconfig[k].setup {
+	local args = {
 		capabilities = capabilities,
 	}
+
+	-- if k == 'clangd' then
+	-- 	args.on_init = function (client, _)
+	-- 		client.server_capabilities.semanticTokensProvider = nil
+	-- 	end
+	-- end
+
+	lspconfig[k].setup(args)
 end
 
 vim.diagnostic.config {
