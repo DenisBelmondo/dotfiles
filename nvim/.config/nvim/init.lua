@@ -6,7 +6,7 @@ end
 -- enable numbers in netrw
 vim.api.nvim_create_autocmd('FileType', {
 	pattern = 'netrw',
-	callback = function ()
+	callback = function()
 		set_numbers()
 	end,
 })
@@ -35,7 +35,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 		vim.api.nvim_echo(
 			{
 				{ 'Failed to clone lazy.nvim:\n', 'ErrorMsg' },
-				{ out, 'WarningMsg' },
+				{ out,                            'WarningMsg' },
 				{ '\nPress any key to exit...' },
 			},
 			true,
@@ -75,7 +75,7 @@ require('lazy').setup {
 		{
 			'nvim-treesitter/nvim-treesitter',
 			build = ':TSUpdate',
-			config = function ()
+			config = function()
 				local configs = require('nvim-treesitter.configs')
 
 				configs.setup {
@@ -126,12 +126,21 @@ require('lazy').setup {
 			'saadparwaiz1/cmp_luasnip',
 		},
 		{
-			'Mofiqul/vscode.nvim',
-			opts = {
-				italic_comments = true,
-				underline_links = true,
-			},
+			'ellisonleao/gruvbox.nvim'
 		},
+		{
+			'sphamba/smear-cursor.nvim',
+		},
+		{
+			'declancm/cinnamon.nvim',
+		},
+		-- {
+		-- 	'Mofiqul/vscode.nvim',
+		-- 	opts = {
+		-- 		italic_comments = true,
+		-- 		underline_links = true,
+		-- 	},
+		-- },
 	},
 	-- Configure any other settings here. See the documentation for more details.
 	-- colorscheme that will be used when installing plugins.
@@ -144,13 +153,26 @@ require('guess-indent').setup {}
 require('ibl').setup()
 require('gitsigns').setup()
 require('mason').setup()
+require('gruvbox').setup {
+	contrast = 'high',
+	transparent_mode = true,
+}
+require('smear_cursor').setup()
+require('cinnamon').setup {
+	keymaps = {
+		basic = true,
+		extra = true,
+	},
+
+	options = { mode = 'window' },
+}
 
 local ls = require 'luasnip'
 local cmp = require 'cmp'
 
 cmp.setup {
 	snippet = {
-		expand = function (args)
+		expand = function(args)
 			ls.lsp_expand(args.body)
 		end,
 	},
@@ -159,13 +181,13 @@ cmp.setup {
 		['<CR>'] = cmp.mapping.confirm { select = true },
 	},
 	sources = cmp.config.sources(
-	{
-		{ name = 'nvim_lsp' },
-		{ name = 'luasnip' },
-	},
-	{
-		{ name = 'buffer' },
-	}),
+		{
+			{ name = 'nvim_lsp' },
+			{ name = 'luasnip' },
+		},
+		{
+			{ name = 'buffer' },
+		}),
 }
 
 cmp.setup.cmdline({ '/', '?' }, {
@@ -178,12 +200,12 @@ cmp.setup.cmdline({ '/', '?' }, {
 cmp.setup.cmdline(':', {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = cmp.config.sources(
-	{
-		{ name = 'path' }
-	},
-	{
-		{ name = 'cmdline' },
-	}),
+		{
+			{ name = 'path' }
+		},
+		{
+			{ name = 'cmdline' },
+		}),
 	matching = { disallow_symbol_nonprefix_matching = false },
 })
 
@@ -219,7 +241,7 @@ local my_keymaps = {
 	{
 		{ 'i' },
 		'<C-S-Space>',
-		function ()
+		function()
 			vim.lsp.buf.signature_help()
 		end,
 		nil,
@@ -227,7 +249,7 @@ local my_keymaps = {
 	{
 		{ 'i', 'n' },
 		'<F2>',
-		function ()
+		function()
 			vim.lsp.buf.rename()
 		end,
 		nil,
@@ -235,7 +257,7 @@ local my_keymaps = {
 	{
 		{ 'i', 'n', 'v' },
 		'<leader>d',
-		function ()
+		function()
 			vim.diagnostic.open_float()
 		end,
 		nil,
@@ -243,7 +265,7 @@ local my_keymaps = {
 	{
 		{ 'i', 'n', 'v' },
 		'<leader>g',
-		function ()
+		function()
 			vim.lsp.buf.definition()
 		end,
 		nil,
@@ -251,23 +273,23 @@ local my_keymaps = {
 	{
 		{ 'i', 'n', 'v' },
 		'<leader>h',
-		function ()
+		function()
 			vim.lsp.buf.hover()
 		end,
 		nil,
 	},
 	{
-		{ 'i', 's' },
+		{ 'i',          's' },
 		'<C-L>',
-		function ()
+		function()
 			ls.jump(1)
 		end,
 		{ silent = true },
 	},
 	{
-		{ 'i', 's' },
+		{ 'i',          's' },
 		'<C-Right>',
-		function ()
+		function()
 			ls.jump(1)
 		end,
 		{ silent = true },
@@ -275,23 +297,23 @@ local my_keymaps = {
 	{
 		{ 's' },
 		'<Tab>',
-		function ()
+		function()
 			ls.jump(1)
 		end,
 		{ silent = true },
 	},
 	{
-		{ 'i', 's' },
+		{ 'i',          's' },
 		'<C-H>',
-		function ()
+		function()
 			ls.jump(-1)
 		end,
 		{ silent = true },
 	},
 	{
-		{ 'i', 's' },
+		{ 'i',          's' },
 		'<C-Left>',
-		function ()
+		function()
 			ls.jump(-1)
 		end,
 		{ silent = true },
@@ -302,4 +324,4 @@ for _, t in pairs(my_keymaps) do
 	vim.keymap.set(unpack(t))
 end
 
-vim.cmd.colorscheme 'vscode'
+vim.cmd([[colorscheme gruvbox]])
