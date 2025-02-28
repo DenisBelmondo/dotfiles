@@ -134,6 +134,9 @@ require('lazy').setup {
 		{
 			'declancm/cinnamon.nvim',
 		},
+		{
+			'mfussenegger/nvim-jdtls',
+		},
 		-- {
 		-- 	'Mofiqul/vscode.nvim',
 		-- 	opts = {
@@ -213,14 +216,15 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local lspconfig = require 'lspconfig'
 
 local lsp_identifiers = {
-	'lua_ls',
 	'bashls',
 	'clangd',
-	'jedi_language_server',
-	'gdscript',
-	'ts_ls',
-	'jsonls',
 	'emmet_language_server',
+	'gdscript',
+	'jdtls',
+	'jedi_language_server',
+	'jsonls',
+	'lua_ls',
+	'ts_ls',
 }
 
 for _, k in pairs(lsp_identifiers) do
@@ -236,6 +240,14 @@ for _, k in pairs(lsp_identifiers) do
 
 	lspconfig[k].setup(args)
 end
+
+local mason_registry = require 'mason-registry'
+local mason_jdtls = mason_registry.get_package 'jdtls'
+
+require('jdtls').start_or_attach {
+    cmd = { mason_jdtls:get_install_path() .. '/bin/jdtls' },
+    root_dir = vim.fs.dirname(vim.fs.find({ 'gradlew', '.git', 'mvnw' }, { upward = true })[1]),
+}
 
 vim.diagnostic.config {
 	signs = true,
