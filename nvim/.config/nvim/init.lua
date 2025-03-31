@@ -62,6 +62,12 @@ local function set_vim_options()
 	}
 end
 
+local function set_up_filetypes()
+	vim.filetype.add {
+		pattern = { ['.*/hypr/.*%.conf'] = 'hyprlang' }
+	}
+end
+
 local function install_lazy_nvim()
 	local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 
@@ -419,4 +425,5 @@ set_up_the_newly_installed_plugins()
 hook_up_cmp_with_snippets()
 set_up_lsp_capabilities()
 set_vim_options()
+set_up_filetypes()
 set_up_keymaps()
