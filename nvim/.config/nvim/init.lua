@@ -40,11 +40,25 @@ local function set_vim_options()
 	vim.opt.mouse = ''
 	vim.opt.hlsearch = false
 	vim.opt.ignorecase = true
+	vim.opt.clipboard:append 'unnamedplus'
 
 	vim.diagnostic.config {
 		signs = true,
 		-- don't show diagnostics to the right of lines
 		virtual_text = false,
+	}
+
+	vim.api.nvim_create_autocmd('FileType', {
+		pattern = 'lisp',
+		command = 'set nolisp',
+	})
+
+	vim.filetype.add {
+		extension = {
+			c3 = 'c3',
+			c3i = 'c3',
+			c3t = 'c3',
+		},
 	}
 end
 
@@ -90,6 +104,9 @@ local function set_up_lazy_plugin_specs()
 				main = 'ibl',
 			},
 			{
+				'hiphish/rainbow-delimiters.nvim',
+			},
+			{
 				'windwp/nvim-autopairs',
 				event = 'InsertEnter',
 				config = true,
@@ -97,7 +114,7 @@ local function set_up_lazy_plugin_specs()
 			{
 				'nvim-treesitter/nvim-treesitter',
 				build = ':TSUpdate',
-				config = function()
+				config = function ()
 					local configs = require('nvim-treesitter.configs')
 
 					configs.setup {
@@ -168,13 +185,25 @@ local function set_up_lazy_plugin_specs()
 			-- },
 			{
 				'ibhagwan/fzf-lua',
-			}
+			},
 		},
 		-- Configure any other settings here. See the documentation for more details.
 		-- colorscheme that will be used when installing plugins.
 		-- install = { colorscheme = { 'habamax' } },
 		-- automatically check for plugin updates
 		checker = { enabled = true },
+	}
+end
+
+function set_up_custom_tree_sitter_stuff()
+	local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+
+	parser_config.c3 = {
+		install_info = {
+			url = 'https://github.com/c3lang/tree-sitter-c3',
+			files = { 'src/parser.c', 'src/scanner.c' },
+			branch = 'main',
+		},
 	}
 end
 
@@ -194,6 +223,9 @@ local function set_up_the_newly_installed_plugins()
 	require('ibl').setup()
 
 	require('mason').setup()
+
+	local pairs = require 'nvim-autopairs'
+
 	require('smear_cursor').setup()
 end
 
@@ -204,7 +236,7 @@ local function hook_up_cmp_with_snippets()
 
 	cmp.setup {
 		snippet = {
-			expand = function(args)
+			expand = function (args)
 				lua_snip.lsp_expand(args.body)
 			end,
 		},
@@ -270,6 +302,14 @@ local function set_up_lsp_capabilities()
 		-- 	end
 		-- end
 
+		if k == 'ts_ls' then
+			args.settings = {
+				implicitProjectConfiguration = {
+					checkJs = true,
+				},
+			}
+		end
+
 		lspconfig[k].setup(args)
 	end
 end
@@ -279,7 +319,7 @@ local function set_up_keymaps()
 		{
 			{ 'i' },
 			'<C-S-Space>',
-			function()
+			function ()
 				vim.lsp.buf.signature_help()
 			end,
 			nil,
@@ -287,7 +327,7 @@ local function set_up_keymaps()
 		{
 			{ 'i', 'n' },
 			'<F2>',
-			function()
+			function ()
 				vim.lsp.buf.rename()
 			end,
 			nil,
@@ -295,7 +335,7 @@ local function set_up_keymaps()
 		{
 			{ 'v', 'i', 'n' },
 			'<leader>d',
-			function()
+			function ()
 				vim.diagnostic.open_float()
 			end,
 			nil,
@@ -303,7 +343,7 @@ local function set_up_keymaps()
 		{
 			{ 'v', 'i', 'n' },
 			'<leader>g',
-			function()
+			function ()
 				vim.lsp.buf.definition()
 			end,
 			nil,
@@ -311,7 +351,7 @@ local function set_up_keymaps()
 		{
 			{ 'v', 'i', 'n' },
 			'<leader>h',
-			function()
+			function ()
 				vim.lsp.buf.hover()
 			end,
 			nil,
@@ -319,7 +359,7 @@ local function set_up_keymaps()
 		{
 			{ 'i', 's' },
 			'<C-L>',
-			function()
+			function ()
 				lua_snip.jump(1)
 			end,
 			{ silent = true },
@@ -327,7 +367,7 @@ local function set_up_keymaps()
 		{
 			{ 'i', 's' },
 			'<C-Right>',
-			function()
+			function ()
 				lua_snip.jump(1)
 			end,
 			{ silent = true },
@@ -335,7 +375,7 @@ local function set_up_keymaps()
 		{
 			{ 's' },
 			'<Tab>',
-			function()
+			function ()
 				lua_snip.jump(1)
 			end,
 			{ silent = true },
@@ -343,7 +383,7 @@ local function set_up_keymaps()
 		{
 			{ 'i', 's' },
 			'<C-H>',
-			function()
+			function ()
 				lua_snip.jump(-1)
 			end,
 			{ silent = true },
@@ -351,7 +391,7 @@ local function set_up_keymaps()
 		{
 			{ 'i', 's' },
 			'<C-Left>',
-			function()
+			function ()
 				lua_snip.jump(-1)
 			end,
 			{ silent = true },
@@ -373,6 +413,7 @@ end
 
 install_lazy_nvim()
 set_up_lazy_plugin_specs()
+set_up_custom_tree_sitter_stuff()
 set_up_colors()
 set_up_the_newly_installed_plugins()
 hook_up_cmp_with_snippets()
