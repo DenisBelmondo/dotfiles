@@ -282,6 +282,7 @@ local function set_up_lsp_capabilities()
 	local lsp_identifiers = {
 		'bashls',
 		'clangd',
+		'csharp_ls',
 		'emmet_language_server',
 		'gdscript',
 		'jdtls',
