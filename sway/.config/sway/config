@@ -1,5 +1,3 @@
-output eDP-1 scale 1.125
-
 # Default config for sway
 #
 # Copy this to ~/.config/sway/config and edit it to your liking.
@@ -20,13 +18,13 @@ set $term kitty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-#set $menu dmenu_path | dmenu | xargs swaymsg exec --
+set $menu wofi --show drun -I | xargs swaymsg exec --
 # it is set in config.d/50-openSUSE.conf
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+# output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 #
 # Example configuration:
 #
@@ -199,6 +197,8 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
+bindsym $mod+Shift+s sticky toggle
+
 #
 # Status Bar:
 #
@@ -217,6 +217,8 @@ bindsym $mod+r mode "resize"
 #        inactive_workspace #32323200 #32323200 #5c5c5c
 #    }
 #}
+
+for_window [class=Godot] floating enable
 
 include /etc/sway/config.d/*.conf
 include ~/.config/sway/config.d/*
