@@ -67,7 +67,7 @@ local function install_lazy_nvim()
 
 	if not (vim.uv or vim.loop).fs_stat(lazypath) then
 		local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-		local out = vim.fn.system({ 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath })
+		local out = vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
 
 		if vim.v.shell_error ~= 0 then
 			vim.api.nvim_echo(
@@ -165,7 +165,25 @@ local function set_up_lazy_plugin_specs()
 				'saadparwaiz1/cmp_luasnip',
 			},
 			{
-				'ellisonleao/gruvbox.nvim'
+				'projekt0n/github-nvim-theme',
+				name = 'github-theme',
+				lazy = false,
+				priority = 1000,
+				config = function ()
+					vim.cmd 'colorscheme github_dark_default'
+				end
+			},
+			{
+				'ellisonleao/gruvbox.nvim',
+				lazy = false,
+				priority = 1001,
+				config = function ()
+					require('gruvbox').setup {
+						overrides = {
+							['@variable'] = { link = 'GruvboxBlue' },
+						},
+					}
+				end
 			},
 			{
 				'sphamba/smear-cursor.nvim',
