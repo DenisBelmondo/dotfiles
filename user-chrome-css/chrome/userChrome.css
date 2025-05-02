@@ -15,11 +15,16 @@ tab:nth-child(8) .tab-content::after {
   counter-increment: tab-counter;
   content: counter(tab-counter) "";
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
-  left: 28px;
-  top: 4px;
-  padding: 0px 4px;
-  border-radius: 7px;
+  border-radius: 6px;
+  width: 8px;
+  height: 8px;
+  left: 16px;
+  bottom: 20px;
+  padding: 2px 2px;
 
   opacity: .7;
   background: black;
