@@ -1,0 +1,29 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+tabs {
+  counter-reset: tab-counter;
+}
+
+tab:nth-child(1) .tab-content::after,
+tab:nth-child(2) .tab-content::after,
+tab:nth-child(3) .tab-content::after,
+tab:nth-child(4) .tab-content::after,
+tab:nth-child(5) .tab-content::after,
+tab:nth-child(6) .tab-content::after,
+tab:nth-child(7) .tab-content::after,
+tab:nth-child(8) .tab-content::after {
+  counter-increment: tab-counter;
+  content: counter(tab-counter) "";
+
+  position: absolute;
+  left: 28px;
+  top: 4px;
+  padding: 0px 4px;
+  border-radius: 7px;
+
+  opacity: .7;
+  background: black;
+
+  font-weight: bold;
+  font-size: 80%;
+}
