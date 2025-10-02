@@ -1,5 +1,6 @@
 vim.opt.clipboard:append { 'unnamed', 'unnamedplus', }
 vim.opt.colorcolumn = '80,120'
+vim.opt.cursorline = true
 vim.opt.guifont = 'Maple Mono:h12'
 vim.opt.hlsearch = false
 vim.opt.ignorecase = true
