@@ -8,7 +8,8 @@ require 'nvim-treesitter' .setup {
 	install_dir = vim.fn.stdpath('data') .. '/site'
 }
 
+-- [TODO]: be smarter about this?
 vim.api.nvim_create_autocmd('FileType', {
-	pattern = { 'c', 'cc', 'cpp', 'cs', 'd', 'h', 'hpp', 'lua', },
+	pattern = { 'c', 'cc', 'cpp', 'cs', 'd', 'h', 'hpp', 'lua', 'java' },
 	callback = function() vim.treesitter.start() end,
 })

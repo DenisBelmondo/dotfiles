@@ -4,6 +4,7 @@ local lses = {
 	'c3_lsp',
 	'clangd',
 	'csharp_ls',
+	'jdtls',
 	'julials',
 	'lua_ls',
 	'serve_d',
