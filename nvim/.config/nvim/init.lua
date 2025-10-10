@@ -1,10 +1,15 @@
+-- [TODO]: recommended to put in ftplugin later
+vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+
 vim.opt.clipboard:append { 'unnamed', 'unnamedplus', }
 vim.opt.colorcolumn = '80,120'
 vim.opt.cursorline = true
+vim.opt.formatoptions:remove 'cro'
+vim.opt.guicursor = guicursor_saved
 vim.opt.guifont = 'Maple Mono:h12'
 vim.opt.hlsearch = false
 vim.opt.ignorecase = true
-vim.opt.linespace = 24
+vim.opt.linespace = 11
 vim.opt.mouse = ''
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -28,6 +33,7 @@ require 'plugins.smear-cursor'
 require 'plugins.sonokai'
 require 'plugins.telescope'
 require 'plugins.tree-sitter'
+require 'plugins.typescript-tools'
 
 vim.cmd [[filetype plugin indent on]]
 vim.cmd [[autocmd FileType * set formatoptions-=cro]]
