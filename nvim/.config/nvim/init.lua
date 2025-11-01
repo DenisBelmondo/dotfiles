@@ -1,11 +1,10 @@
 vim.pack.add { 'https://github.com/NMAC427/guess-indent.nvim.git' }
-vim.pack.add { 'https://github.com/catppuccin/nvim.git' }
 vim.pack.add { 'https://github.com/neovim/nvim-lspconfig.git' }
 vim.pack.add { 'https://github.com/nvim-lualine/lualine.nvim.git' }
 vim.pack.add { 'https://github.com/nvim-mini/mini.nvim.git' }
+vim.pack.add { 'https://github.com/sainnhe/sonokai.git' }
 vim.pack.add { { src = 'https://github.com/nvim-treesitter/nvim-treesitter.git', version = 'main' } }
 
-vim.opt.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
 vim.opt.autoindent = true
 vim.opt.clipboard:append { 'unnamed', 'unnamedplus', }
 vim.opt.colorcolumn = '80,120'
@@ -22,7 +21,6 @@ vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.shiftwidth = 4
 vim.opt.signcolumn = 'yes'
-vim.opt.smartindent = true
 vim.opt.tabstop = 4
 vim.opt.wrap = false
 vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
@@ -30,15 +28,18 @@ vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 require 'guess-indent' .setup {}
 require 'lualine' .setup()
 require 'mini.pairs' .setup()
+require 'mini.indentscope' .setup()
 
 vim.lsp.config('csharp_ls', { cmd = { '/home/mason/.dotnet/tools/csharp-ls' } })
 vim.lsp.enable 'csharp_ls'
 vim.lsp.enable 'lua_ls'
 
-vim.api.nvim_create_autocmd('BufEnter', {
+vim.api.nvim_create_autocmd('FileType', {
 	callback = function ()
-	  	pcall(vim.treesitter.start)
-	end,
+		vim.treesitter.start()
+		vim.opt_local.indentexpr = ''
+	end
 })
 
-vim.cmd [[colorscheme catppuccin-latte]]
+vim.g.sonokai_style = 'andromeda'
+vim.cmd [[colorscheme sonokai]]
